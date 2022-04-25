@@ -8,10 +8,9 @@ const router = express.Router()
 
 const filesDir = `${__dirname}/../upload/`  // 上传文件目录
 router.post('/upload', auth ,(req, res, next) => {
-  console.log(__dirname);
   const form = new formidable.IncomingForm({
     uploadDir: filesDir,
-    keepExtensions: true
+    // keepExtensions: true
   });
   
   form.parse(req, (err, fields, files) => {
@@ -19,8 +18,10 @@ router.post('/upload', auth ,(req, res, next) => {
       next(err);
       return;
     }
-    files = files[""] 
-    let suffixStr = getSubffix(files.originalFilename) // 获取文件名后缀
+    console.log(fields);
+    console.log(files);
+    // files = files[""] 
+    // let suffixStr = getSubffix(files.originalFilename) // 获取文件名后缀
     res.json({ fields, files});
   });
 });
