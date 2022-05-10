@@ -1,8 +1,8 @@
 // 数据库操作
 const mongoose = require('mongoose')
-const { dbUri } = require('../config/config.default')
+const { dbUrl } = require('../config/config.default')
 
-mongoose.connect(dbUri, {
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -22,6 +22,15 @@ db.once('open', function () {
 // 组织导出模型类
 module.exports = {
   // mongoose默认规则：User -> users 集合
-  User: mongoose.model('User', require('./user')),
-  UserMenu: mongoose.model('UserMenu', require('./userMenu'))
+  User: mongoose.model('User', require('./module/user')),
+  // 权限菜单
+  UserMenu: mongoose.model('UserMenu', require('./module/userMenu')),
+  // 文件管理
+  File: mongoose.model('File', require('./module/file')),
+  // 课程列表
+  Course: mongoose.model('course_list', require('./module/course_list'), 'course_list'),
+  // 专业列表
+  Profession: mongoose.model('pf_list', {}, 'pf_list'),
+  // 班级列表
+  Class: mongoose.model('class_list', {}, 'class_list')
 }

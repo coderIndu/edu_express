@@ -1,5 +1,5 @@
 // user 控制器
-const { User } = require('../model')
+const { User, Class, Profession } = require('../model')
 const jwt = require('../util/jwt')
 const { jwtSecret } = require('../config/config.default')
 
@@ -9,6 +9,7 @@ exports.login = async (req, res, next) => {
   try {
     // 1. 数据验证
     // 2. 生成token
+    // console.log(req.user);
     const user = req.user.toJSON()
     const token = await jwt.sign({ userid: user.userid }, jwtSecret)
     user.token = token
@@ -27,14 +28,21 @@ exports.register = async (req, res, next) => {
   try {
     // 1. 获取请求体数据
     console.log(req.body)
-    // 2. 数据验证
-    // 3. 验证成功，将数据保存到数据库
-    const user = new User(req.body.user)
-    await user.save()
-    // 4. 发送成功响应
-    res.status(201).json(
-      user
-    )
+    const user = req.body.user
+    
+    // 2. 从班级表中获取对应的班级id数据
+    const class_result = await Class.findOne({name: user.className})
+    const pf_result = await Profession.findOne({name: user.profession})
+    const { id: class_id } = class_result.toObject()
+    const { id: pf_id } =  pf_result.toObject()
+    // 3. 获取成功，将数据保存到user中
+    user.class_id = class_id      // 班级id
+    user.pf_id = pf_id            // 专业id
+    // console.log(user);
+    // 4. 将user对象保存到数据库中
+    const data = await User.create(user)
+    // 5. 发送成功响应
+    res.status(201).json({data})
   } catch (err) {
     next(err)
   }

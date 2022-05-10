@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000
 
 // 解析请求体
 app.use(express.json())
-// app.use(express.urlencoded())
+app.use(express.urlencoded({extended: true}))
 // 配置日志
 app.use(morgan('dev'))
 // 配置跨域

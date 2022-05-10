@@ -2,9 +2,9 @@
  * 用户路由配置
  */
 const express = require('express')
-const userCtrl = require('../controller/user')
-const userValidator = require('../validator/user')
-const auth = require('../middleware/auth')
+const userCtrl = require('../../controller/user')
+const userValidator = require('../../validator/user')
+const auth = require('../../middleware/auth')
 
 const router = express.Router()
 
@@ -13,7 +13,7 @@ const router = express.Router()
 router.post('/users/login', userValidator.login, userCtrl.login)
 
 // 用户注册
-router.post('/users', userValidator.register, userCtrl.register)
+router.post('/users/register', userValidator.register, userCtrl.register)
 
 // 获取当前登录用户
 router.get('/user', [auth, userValidator.getCurrentUser], userCtrl.getCurrentUser)

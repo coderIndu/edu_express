@@ -1,4 +1,4 @@
-const { validationResult } = require('express-validator')
+const { validationResult } = require('express-validator')  // 用于验证
 
 module.exports = validations => {
   return async (req, res, next) => {
