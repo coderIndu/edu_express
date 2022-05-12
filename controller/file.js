@@ -15,7 +15,7 @@ exports.save = async (req, res, next) => {
     const { course_id, class_id } = req.query
     if(!course_id || !class_id) throw new Error("query is required")
     const form = new formidable.IncomingForm({
-      uploadDir: 'upload',
+      uploadDir: config.UPLOAD_PATH,
       keepExtensions: true,
     });
     // 上传文件处理
@@ -89,8 +89,8 @@ exports.delete = async(req, res, next) => {
       if(deletedCount) {
         // 4. 服务器对应文件也需要删除
         for (let i = 0; i < paths.length; i++) {
-          const path = process.cwd() + paths[i]
-          // console.log(path);
+          const path = process.cwd() + '/..' + paths[i]
+          console.log(path);
           await dropFile(path)
         }
         msg = "删除成功"

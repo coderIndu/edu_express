@@ -29,7 +29,7 @@ app.post('/', (req, res) => {
 
 
 // 配置文件目录
-app.use(`/api${config.UPLOAD_PATH}`, express.static('upload'))
+app.use(`/api/resource`, express.static(config.UPLOAD_PATH))
 // 配置路由
 app.use('/api', router)
 app.use(errorHandle())

@@ -4,7 +4,7 @@
 const HOST = '127.0.0.1'
 const PORT = 5000
 const UPLOAD_PATH = `${process.cwd()}/../resource`
-console.log(UPLOAD_PATH);
+
 const BASE_HOST = `http://${HOST}:${PORT}/api`
 module.exports = {
   PORT,
