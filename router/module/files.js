@@ -15,4 +15,8 @@ router.get('/file/getfiles', auth, fileCtrl.list)
 
 // 删除文件
 router.post('/file/delete', auth, fileCtrl.delete)
+
+// 文件重命名
+router.get('/file/rename', auth, fileCtrl.rename)
+
 module.exports = router

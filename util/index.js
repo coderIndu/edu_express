@@ -1,4 +1,5 @@
 
+const config = require('../config/config.default')
 /**
  * 格式化日期
  * @param {*} date 日期
@@ -32,9 +33,10 @@ function dateFormat(date, fmt="yyyy-mm-dd hh:MM:ss") {
  */
 function getFileInfo(data) {
   let id = data?.newFilename.replace(/\..*/, '')
-  let {filepath: path, size, originalFilename:name, lastModifiedDate: createData} = data
+  let {filepath: path, size, originalFilename:name, lastModifiedDate: createData, mimetype} = data
+  path = `${config.UPLOAD_PATH}/${id}${name.match(/\..*/)}`
   createData = dateFormat(new Date(createData))
-  let info = {id, name, path, size, createData}
+  let info = {id, name, path, size, createData, mimetype}
   return info
 }
 

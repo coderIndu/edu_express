@@ -29,6 +29,10 @@ const fileSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  mimetype: {
+    type: String,
+    required: true
+  },
   course_id: {
     type: String,
     required: true

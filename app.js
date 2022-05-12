@@ -3,14 +3,16 @@ const morgan = require('morgan')
 const cors = require('cors')
 const router = require('./router')
 const errorHandle = require('./middleware/error-handler')
+const config = require('./config/config.default')
 require('./model/index')
 
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || config.PORT
 
 // 解析请求体
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+
 // 配置日志
 app.use(morgan('dev'))
 // 配置跨域
@@ -25,10 +27,13 @@ app.post('/', (req, res) => {
   res.send("post /")
 })
 
+
+// 配置文件目录
+app.use(`/api${config.UPLOAD_PATH}`, express.static('upload'))
 // 配置路由
 app.use('/api', router)
 app.use(errorHandle())
 
 app.listen(PORT, () => {
-  console.log("服务端启动：http://localhost:" + PORT)
+  console.log("服务端启动端口：" + PORT)
 })
