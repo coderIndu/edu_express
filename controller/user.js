@@ -51,6 +51,7 @@ exports.register = async (req, res, next) => {
 // 获取当前登录用户
 exports.getCurrentUser = async (req, res, next) => {
   try {
+    
     // 处理请求
     res.status(200).json({
       user: req.user
@@ -63,8 +64,18 @@ exports.getCurrentUser = async (req, res, next) => {
 // 更新当前登录用户
 exports.updateCurrentUser = async (req, res, next) => {
   try {
-    // 处理请求
-    res.send('put /user')
+    // 1. 处理请求
+    const { userid, profession, className } = req.body
+    console.log(className);
+    // 1.1 匹配班级id和专业id
+    const {id: pf_id} = (await Profession.findOne({name: profession})).toObject()
+    const {id: class_id} = (await Class.findOne({name: className})).toObject()
+
+    // 2. 更新用户数据
+    const result = await User.updateOne({userid}, {...req.body, pf_id, class_id})
+
+    // 3. 发送数据
+    res.status(200).json(result)
   } catch (err) {
     next(err)
   }

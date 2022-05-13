@@ -32,5 +32,7 @@ module.exports = {
   // 专业列表
   Profession: mongoose.model('pf_list', {}, 'pf_list'),
   // 班级列表
-  Class: mongoose.model('class_list', {}, 'class_list')
+  Class: mongoose.model('class_list', require('./module/class_list'), 'class_list'),
+  // 聊天室消息
+  Notice: mongoose.model('notice_list',require('./module/notice_list'), 'notice_list'),
 }

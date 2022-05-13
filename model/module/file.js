@@ -22,8 +22,7 @@ const fileSchema = new mongoose.Schema({
     required: true
   },
   class_id: {
-    type: String,
-    required: true
+    type: String
   },
   create_id: {
     type: String,
@@ -34,8 +33,7 @@ const fileSchema = new mongoose.Schema({
     required: true
   },
   course_id: {
-    type: String,
-    required: true
+    type: String
   },
   createData: {
     type: String,

@@ -52,7 +52,7 @@ exports.login = [
 exports.getCurrentUser = validate([ // 1. 配置验证规则
   query('userid')
     .notEmpty().withMessage("学号不能为空")
-    .custom(async userid => {
+    .custom(async (userid, { req }) => {
       if (!userid) return Promise.reject("没有该用户")
     })
 ])

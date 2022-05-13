@@ -13,7 +13,7 @@ const dropFile = promisify(fs.unlink)
 exports.save = async (req, res, next) => {
   try {
     const { course_id, class_id } = req.query
-    if(!course_id || !class_id) throw new Error("query is required")
+    // if(!course_id || !class_id) throw new Error("query is required")
     const form = new formidable.IncomingForm({
       uploadDir: config.UPLOAD_PATH,
       keepExtensions: true,

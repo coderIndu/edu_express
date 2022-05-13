@@ -4,6 +4,8 @@ const cors = require('cors')
 const router = require('./router')
 const errorHandle = require('./middleware/error-handler')
 const config = require('./config/config.default')
+const {socket} = require('./util/socket/index')
+
 require('./model/index')
 
 const app = express()
@@ -34,6 +36,11 @@ app.use(`/api/resource`, express.static(config.UPLOAD_PATH))
 app.use('/api', router)
 app.use(errorHandle())
 
-app.listen(PORT, () => {
+// 配置监听端口
+const server = app.listen(PORT, () => {
   console.log("服务端启动端口：" + PORT)
 })
+
+// 配置socket
+// console.log(socket)
+socket(server)

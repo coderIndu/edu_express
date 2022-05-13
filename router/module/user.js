@@ -19,7 +19,7 @@ router.post('/users/register', userValidator.register, userCtrl.register)
 router.get('/user', [auth, userValidator.getCurrentUser], userCtrl.getCurrentUser)
 
 // 更新当前登录用户
-router.put('/user', userCtrl.updateCurrentUser)
+router.post('/user/update', userCtrl.updateCurrentUser)
 
 
 module.exports = router
