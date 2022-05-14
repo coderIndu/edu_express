@@ -1,6 +1,6 @@
 
 let userList = []
-const { Notice } = require('../../model/index')
+const { Socket } = require('../../model/index')
 
 
 exports.socket = (server) => {
@@ -12,7 +12,7 @@ exports.socket = (server) => {
   // 连接成功
   io.on('connection', client => {
     // 发送连接成功事件
-    client.emit('success', )
+    client.emit('success', client.id + "连接成功")
     
     // 客户端断开连接,发送quit事件
     client.on('disconnect', () => {
@@ -26,8 +26,8 @@ exports.socket = (server) => {
      try {
       delete data.menu
       delete data._id
-      await Notice.create(data)
-      const result = await Notice.find()
+      await Socket.create(data)
+      const result = await Socket.find()
       io.emit('resMsg', result)
      } catch (error) {
        console.log(error);
@@ -47,7 +47,7 @@ exports.socket = (server) => {
         io.emit('userlist', userList)
         
         // 3. 从数据库中获取消息列表
-        const result = await Notice.find()
+        const result = await Socket.find()
         io.emit('resMsg', result)
       } catch (error) {
         console.log(error);

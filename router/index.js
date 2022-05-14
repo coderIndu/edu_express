@@ -22,6 +22,8 @@ router.use(require('./module/course'))
 // 专业班级相关
 router.use(require('./module/pf_class'))
 
+// 公告相关
+router.use(require('./module/notice'))
 
 
 

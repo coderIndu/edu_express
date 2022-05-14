@@ -34,5 +34,7 @@ module.exports = {
   // 班级列表
   Class: mongoose.model('class_list', require('./module/class_list'), 'class_list'),
   // 聊天室消息
-  Notice: mongoose.model('notice_list',require('./module/notice_list'), 'notice_list'),
+  Socket: mongoose.model('socket_list',require('./module/socket_list'), 'socket_list'),
+  // 公告列表
+  Notice: mongoose.model('notice_list',require('./module/notice_list'), 'notice_list')
 }
