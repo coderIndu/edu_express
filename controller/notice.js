@@ -19,6 +19,7 @@ exports.addOne = async (req, res, next) => {
   }
 }
 
+// 删除一则公告
 exports.delOne = async (req, res, next) => {
   try {
     // 1. 获取公告id
@@ -34,13 +35,30 @@ exports.delOne = async (req, res, next) => {
   }
 }
 
+// 编辑一则公告
+exports.editOne = async (req, res, next) => {
+  try {
+    // 1. 获取id
+    const { id, update } = req.body
+
+    // 2. 更新数据
+    const result = await Notice.updateOne({id}, update)
+
+    // 3. 发送
+    res.status(200).json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+
 // 获取公告列表(通过班级id或者创建人id获取)
 exports.getlist = async (req, res, next) => {
   try {
     // 1. 从query中获取参数
-    const { class_id, userid } = req.query
-    const result = await Notice.find({$or: [{class_id}, {create_id: userid}]})
-    // 发送数据
+    const { class_name, userid } = req.query
+    // 2. 获取自己发布的或者是自己班级的公告
+    const result = await Notice.find({$or: [{class_name}, {create_id: userid}]})
+    // 3. 发送数据
     res.status(200).json(result)
   } catch (error) {
     next(error)

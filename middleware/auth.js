@@ -15,13 +15,19 @@ module.exports = async (req, res, next) => {
   try {
     const { userid } = await verify(token, jwtSecret)
     const user = (await User.findOne({ userid })).toJSON()
-    const { menus = "" } = (await UserMenu.findOne({ role: user.role })).toJSON()
-
+    const result = await UserMenu.findOne({ role: 'all' })
+    let menus = []
+    if(result) {  
+      // console.log(result);
+      menus = result.toObject().menus
+    }
+    // console.log(menus);
     user.menu = menus
     delete user.password
     req.user = user 
     next()
   } catch (error) {
+    console.log(error);
     return res.status(401).end({})
   }
 }

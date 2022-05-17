@@ -47,7 +47,15 @@ exports.socket = (server) => {
         io.emit('userlist', userList)
         
         // 3. 从数据库中获取消息列表
-        const result = await Socket.find()
+        let result ={}
+        const { class_id } = data
+        if(data.role === 'student') {  // 学生收班级限制
+          result = await Socket.find({$or: [{class_id}, {role: 'teacher'}]})
+        } else {  // 老师受专业限制
+          result = await Socket.find({pf_id: data.pf_id})
+        }
+        
+        // console.log(result);
         io.emit('resMsg', result)
       } catch (error) {
         console.log(error);

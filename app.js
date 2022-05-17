@@ -6,7 +6,7 @@ const errorHandle = require('./middleware/error-handler')
 const config = require('./config/config.default')
 const {socket} = require('./util/socket/index')
 
-require('./model/index')
+// require('./model/index')
 
 const app = express()
 const PORT = process.env.PORT || config.PORT
@@ -25,7 +25,6 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-  console.log(req.body)
   res.send("post /")
 })
 

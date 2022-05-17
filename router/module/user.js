@@ -21,6 +21,12 @@ router.get('/user', [auth, userValidator.getCurrentUser], userCtrl.getCurrentUse
 // 更新当前登录用户
 router.post('/user/update', userCtrl.updateCurrentUser)
 
+// 获取用户列表
+router.get('/user/getlist', auth, userCtrl.getlist)
+
+// 删除用户
+router.post('/user/delUser', auth, userCtrl.delUser)
+
 
 module.exports = router
 

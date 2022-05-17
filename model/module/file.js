@@ -35,7 +35,7 @@ const fileSchema = new mongoose.Schema({
   course_id: {
     type: String
   },
-  createData: {
+  createDate: {
     type: String,
     required: true
   }

@@ -13,6 +13,10 @@ const courseSchema = new mongoose.Schema({
     required: true,
     default: null  // 默认值
   },
+  card_list: {      // 该课程打开的学生列表
+    type: Array,
+    default: []
+  },
   class_name: {
     type: String,
     required: true
@@ -22,6 +26,10 @@ const courseSchema = new mongoose.Schema({
     required: true
   },
   create_id: {
+    type: String,
+    required: true
+  },
+  create_name: {
     type: String,
     required: true
   },

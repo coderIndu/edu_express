@@ -4,35 +4,27 @@
 const fs = require('fs')
 const { promisify } = require('util')
 const { File } = require('../model')
-const { getFileInfo } = require('../util/index')
-const formidable = require('formidable')
-const config = require('../config/config.default')
-
+const { dateFormat } = require('../util/index')
 const dropFile = promisify(fs.unlink)
-// 文件保存
+
+// 上传文件
 exports.save = async (req, res, next) => {
   try {
-    const { course_id, class_id } = req.query
-    // if(!course_id || !class_id) throw new Error("query is required")
-    const form = new formidable.IncomingForm({
-      uploadDir: config.UPLOAD_PATH,
-      keepExtensions: true,
-    });
-    // 上传文件处理
-    form.parse(req, async (err, fields, files) => {
-      if(err) throw err
-      // 1, 筛选文件信息
-      const data = files?.file ?? files['']
-      const { userid: create_id } = req.user
-      const info = getFileInfo(data)
-      const fileInfo = {...info, create_id, class_id, course_id}
+    // 1. 设置数据
+    const file = req.files[0]    
+    req.body.id = file.id
+    req.body.size = file.size
+    req.body.path = '/resource/' + file.filename
+    req.body.mimetype = file.mimetype
+    req.body.createDate = dateFormat(new Date(req.body.lastModifiedDate))
 
-      // 2, 存放数据库
-      await File.create(fileInfo)
-     
-      // 3. 返回数据
-      res.status(200).json(fileInfo)
-    })
+    // console.log(req.body);
+    
+    // 2. 存放数据
+    const result = await File.create(req.body)
+    // 3. 返回数据
+    res.status(200).json(result)
+    // })
   } catch (err) {
     next(err)
   }
@@ -90,7 +82,6 @@ exports.delete = async(req, res, next) => {
         // 4. 服务器对应文件也需要删除
         for (let i = 0; i < paths.length; i++) {
           const path = process.cwd() + '/..' + paths[i]
-          console.log(path);
           await dropFile(path)
         }
         msg = "删除成功"
@@ -112,7 +103,7 @@ exports.rename = async(req, res, next) => {
 
     // 2. 更改数据名称
     const result = await File.updateOne({id}, {$set: {name}})
-    console.log(result);
+
     // 3. 发送响应数据
     res.status(200).json({})
   } catch (error) {

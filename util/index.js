@@ -32,12 +32,7 @@ function dateFormat(date, fmt="yyyy-mm-dd hh:MM:ss") {
  * @returns 
  */
 function getFileInfo(data) {
-  let id = data?.newFilename.replace(/\..*/, '')
-  let {filepath: path, size, originalFilename:name, lastModifiedDate: createData, mimetype} = data
-  path = `/resource/${id}${name.match(/\..*/)}`
-  createData = dateFormat(new Date(createData))
-  let info = {id, name, path, size, createData, mimetype}
-  return info
+ 
 }
 
 module.exports = {

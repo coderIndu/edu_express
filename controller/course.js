@@ -1,7 +1,7 @@
 /**
  * 课程数据操作
  */
- const { Course, Class } = require('../model')
+ const { Course, File, Socket } = require('../model')
 
 
  // 课程保存
@@ -20,6 +20,23 @@
    }
  }
  
+ // 获取课程详情
+ exports.getDetails = async (req, res, next) => {
+    try {
+      // 1. 获取id
+      const { id } = req.query
+      // 2. 获取课程关联的文件和聊天室内容
+      const file_result = await File.find({course_id: id})
+      const socket_result = await Socket.find({course_id: id})
+      const { card_list } = await Course.findOne({id})
+
+      // 3. 返回信息
+      res.status(200).json({file_list: file_result, socket_result: socket_result})
+    } catch (error) {
+      next(error)
+    }
+ }
+
  // 文件列表
  exports.list = async (req, res, next) => {
    try {
@@ -63,6 +80,22 @@ exports.removeMany = async (req, res, next) => {
     // 2. 数据库中删除多个id
     const result = await Course.deleteMany({id: {$in: ids}})
     
+    res.status(200).json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 课程打卡
+exports.addClock = async (req, res, next) => {
+  try {
+    // 1. 从query中获取课程id
+    const { course_id, userid } = req.query
+
+    // 2. 插入数据userid至数据库中
+    const result = await Course.updateOne({id: course_id}, {$addToSet: {card_list: userid}})
+
+    // 3. 返回数据
     res.status(200).json(result)
   } catch (error) {
     next(error)

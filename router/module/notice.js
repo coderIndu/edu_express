@@ -10,6 +10,9 @@ router.post('/notice/addOne', auth, noticeCtrl.addOne)
 // 删除公告
 router.get('/notice/delOne', auth, noticeCtrl.delOne)
 
+// 编辑公告
+router.post('/notice/editOne', auth, noticeCtrl.editOne)
+
 // 获取公告列表
 router.get('/notice/getlist', auth, noticeCtrl.getlist)
 

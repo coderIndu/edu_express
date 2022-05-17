@@ -11,7 +11,7 @@ const NOTICE_LIST = new mongoose.Schema({
     type: String,
     required: true
   },
-  class_id: {
+  class_name: {
     type: String,
     required: true
   },
