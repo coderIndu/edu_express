@@ -25,8 +25,11 @@ router.use(require('./module/pf_class'))
 // 公告相关
 router.use(require('./module/notice'))
 
+// 数据统计相关
+router.use(require('./module/count'))
 
-
+// 图形验证码登录
+router.use(require('./module/code'))
 
 module.exports = router
 

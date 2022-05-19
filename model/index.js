@@ -36,5 +36,7 @@ module.exports = {
   // 聊天室消息
   Socket: mongoose.model('socket_list',require('./module/socket_list'), 'socket_list'),
   // 公告列表
-  Notice: mongoose.model('notice_list',require('./module/notice_list'), 'notice_list')
+  Notice: mongoose.model('notice_list',require('./module/notice_list'), 'notice_list'),
+  // 专业人数数据统计
+  Count: mongoose.model('count_list', require('./module/count'), 'count_list'),
 }

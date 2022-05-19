@@ -9,7 +9,6 @@ exports.login = async (req, res, next) => {
   try {
     // 1. 数据验证
     // 2. 生成token
-    // console.log(req.user);
     const user = req.user.toJSON()
     const token = await jwt.sign({ userid: user.userid }, jwtSecret)
     user.token = token
@@ -105,8 +104,10 @@ exports.getlist = async (req, res, next) => {
     const total = await User.find({$and: [{pf_id},{role}]}).count()
     
     if(search) {
-      // console.log(search);
-      list = await User.find({$or: [{userid: search}, {username: search}]}).limit(limit).skip((page - 1) * limit)
+      list = await User.find({
+        role,
+        $or: [{userid: { $regex: search }}, {username: {$regex: search}},{className:{$regex: search}}, {profession: {$regex: search}}]
+      }).limit(limit).skip((page - 1) * limit)
     }
     // console.log(list);
     // 3. 返回数据

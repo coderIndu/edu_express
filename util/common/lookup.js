@@ -11,11 +11,18 @@
  * @returns 
  */
 async function getLookUp(model, config) {
-  const {from, localField, foreignField, as, re, field} = config
+  const option = []
+  const {from, localField, foreignField, as, re, project} = config
   const $lookup = dropNull({from, localField, foreignField, as})
-  const $match = dropNull(re)
-  const $project = dropNull(field)
-  const result = await model.aggregate([{$lookup},{$match},{$project}])
+  const $match = re
+  const $project = project
+
+  Reflect.ownKeys($lookup).length && option.push({$lookup})
+  $match &&  option.push({$match})
+  $project && option.push({$project})
+
+  // console.log(option);
+  const result = await model.aggregate(option)
   return result
 }
 

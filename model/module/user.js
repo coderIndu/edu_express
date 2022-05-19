@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  email: {
+    type: String,
+    match: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+  },
   image: {
     type: String,
     default: null

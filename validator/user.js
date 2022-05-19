@@ -31,7 +31,6 @@ exports.login = [
   validate([
     body('user.userid').custom(async (userid, { req }) => {
       const user = await User.findOne({ userid })
-
       if (!user) return Promise.reject("用户不存在")
       // 存放user信息到req对象中，给后面的中间件使用
       req.user = user
@@ -44,6 +43,28 @@ exports.login = [
       }
     })
   ])
+]
+
+exports.email =  [
+  validate([
+    body('user.email').notEmpty().withMessage("学号不能为空"),
+    // body('user.password').notEmpty().withMessage("密码不能为空")
+  ]),
+  validate([
+    body('user.email').custom(async (email, { req }) => {
+      const user = await User.findOne({ email })
+      if (!user) return Promise.reject("用户不存在")
+      // 存放user信息到req对象中，给后面的中间件使用
+      req.user = user
+    })
+  ]),
+  // validate([
+  //   body('user.password').custom(async (password, { req }) => {
+  //     if (md5(password) !== req.user.password) {
+  //       return Promise.reject("密码错误")
+  //     }
+  //   })
+  // ])
 ]
 
 /**

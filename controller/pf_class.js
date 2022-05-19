@@ -22,7 +22,7 @@ exports.getClassList = async (req, res, next) => {
       foreignField: "id",
       as: "list",
       re: { name: profession },
-      field: { list: 1}
+      project: { list: 1}
     })
     
     if(data.length) {

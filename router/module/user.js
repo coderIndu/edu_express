@@ -9,8 +9,10 @@ const auth = require('../../middleware/auth')
 const router = express.Router()
 
 // 用户相关路由
-// 用户登录
+// 用户账号密码登录
 router.post('/users/login', userValidator.login, userCtrl.login)
+// 邮箱登录
+router.post('/users/login/email', userValidator.email, userCtrl.login)
 
 // 用户注册
 router.post('/users/register', userValidator.register, userCtrl.register)
