@@ -42,10 +42,13 @@
    try {
     let list = []   
     // 1. 根据class_id / create_id获取文件列表, page: 第几页，limit：每页展示的个数
-    let { class_id, create_id, page, limit } = req.body
-    
-    // 2. 去数据库查询数据
-    list = await Course.find({$or: [{create_id},{class_id}]}).limit(limit).skip((page - 1) * limit)
+    const { class_id, create_id, page, limit, search='' } = req.body
+    console.log(search);
+    // 2. 去数据库查询数据x`
+    list = await Course.find({
+      create_id,
+      $or: [{class_id}, {name: {$regex: search}}]
+    }).limit(limit).skip((page - 1) * limit)
     const total = await Course.count()
     // 3. 返回数据
      res.status(200).json({list, total, page, limit})

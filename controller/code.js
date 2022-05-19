@@ -6,7 +6,7 @@ exports.getcode = (req, res, next) => {
   try {
     // 1. 创建svg图形验证码
     const captcha = svgCaptcha.create({
-      height: 40
+      height: 50
     })
     
     // res.type('svg')

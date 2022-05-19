@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     match: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
   },
+  address: {
+    type: String,
+    default: null
+  },
   image: {
     type: String,
     default: null

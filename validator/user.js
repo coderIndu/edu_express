@@ -45,6 +45,7 @@ exports.login = [
   ])
 ]
 
+// email登录
 exports.email =  [
   validate([
     body('user.email').notEmpty().withMessage("学号不能为空"),

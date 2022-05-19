@@ -64,22 +64,26 @@ exports.getCurrentUser = async (req, res, next) => {
 exports.updateCurrentUser = async (req, res, next) => {
   try {
     // 1. 处理请求
-    const { userid, prePwd, newPwd } = req.body
+    const { userid, prePwd, newPwd, email } = req.body
     
     // 1.1 匹配班级id和专业id
     let result = {}
+
     if(prePwd && newPwd) {
        // 2.1 更新密码
       const findUser = await User.findOne({userid})
       const findPwd = findUser.password
       
       if(findPwd === md5(prePwd)) {
-        result = await User.updateOne({userid}, {$set: {password: newPwd}})
+        result = await User.updateOne({$or: [{userid}]}, {$set: {password: newPwd}})
+        console.log(2333, result);
       } else {
         result = {
           msg: "原密码不正确"
         }
       }
+    } else if(email) {      // 邮箱更改密码
+      result = await User.updateOne({email}, {$set: {password: newPwd}})
     } else {
        // 2.2 更新用户数据
       result = await User.updateOne({userid}, req.body) // , pf_id, class_id
@@ -132,15 +136,15 @@ exports.delUser = async (req, res, next) => {
   }
 }
 
-// 更改努努
+// 更改密码
 exports.updatePwd = async (req, res, next) => {
   try {
     // 1. 获取密码
-    const { prePwd, newPwd } = req.body
+    const { prePwd, newPwd, email } = req.body
 
     // 2. 验证密码
-    const result = await User.findOneAndUpdate({password: prePwd}, {password: newPwd})
-    console.log(result);
+    const result = await User.findOneAndUpdate({$or: [{password: prePwd}, {email}]}, {password: newPwd})
+    console.log(1111, result);
   } catch (error) {
     next(error)
   }
