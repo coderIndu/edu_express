@@ -65,7 +65,6 @@ exports.updateCurrentUser = async (req, res, next) => {
   try {
     // 1. 处理请求
     const { userid, prePwd, newPwd, email } = req.body
-    
     // 1.1 匹配班级id和专业id
     let result = {}
 
@@ -82,10 +81,12 @@ exports.updateCurrentUser = async (req, res, next) => {
           msg: "原密码不正确"
         }
       }
-    } else if(email) {      // 邮箱更改密码
+    } else if(email && newPwd) {      // 邮箱更改密码
       result = await User.updateOne({email}, {$set: {password: newPwd}})
     } else {
+      // console.log(1111, req.body);
        // 2.2 更新用户数据
+      delete req.body.menu
       result = await User.updateOne({userid}, req.body) // , pf_id, class_id
     }
 
