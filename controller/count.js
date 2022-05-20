@@ -21,6 +21,18 @@ exports.getInfo = async (req, res, next) => {
   }
 }
 
+// 获取专业列表信息
+exports.getPfList = async (req, res, next) => {
+  try {
+    // console.log(2333);
+    const result = await getPf_list()
+    // console.log(result);
+    res.status(200).json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+// 获取专业
 /**
  * 获取专业关联的班级的学生个数
  * @param {String} pf_id 专业id
@@ -44,27 +56,22 @@ function getClasses(pf_id) {
   })
 }
 
-function getPf() {
+/**
+ * 
+ * @returns 专业及班级列表
+ */
+function getPf_list() {
   return new Promise(async resolve => {
     try {
       const find = await getLookUp(Profession, {
-        project: {
-          id: 1,
-          _id: 0,
-        }
+        from: 'class_list',
+        localField: 'list',
+        foreignField: 'id',
+        as: 'children'
       })
-      const result = find.map(item => {
-        return {
-          pf_id: item.id,
-          list: []
-        }
-      })
-      await Count.findOneAndUpdate({})
       resolve(find)
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   })
 }
-
-// getPf()

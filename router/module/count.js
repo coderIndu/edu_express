@@ -7,6 +7,7 @@ const router = express.Router()
 // 获取数据
 router.get('/count/getlist', auth, CTRL.getInfo)
 
-
+// 获取专业班级数据,用户教师注册时显示
+router.get('/count/getPfList', CTRL.getPfList)
 
 module.exports = router

@@ -104,7 +104,12 @@ exports.getlist = async (req, res, next) => {
     const { pf_id, role, page, limit, search } = req.query
     // console.log(pf_id, role);
     // 2. 查下相关学生数据
-    let list = await User.find({$and: [{pf_id},{role}]}).limit(limit).skip((page - 1) * limit)
+    let list = {}
+    if(pf_id && role) {   // 查找专业的学生
+      list = await User.find({$and: [{pf_id},{role}]}).limit(limit).skip((page - 1) * limit)
+    } else {
+      list = await User.find({$or: [{pf_id},{role}]}).limit(limit).skip((page - 1) * limit)
+    }
     const total = await User.find({$and: [{pf_id},{role}]}).count()
     
     if(search) {
