@@ -44,11 +44,11 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   className: {    // 班级名
-    type: String,
+    type: Object, 
     required: true
   },
   class_id: {     // 班级id
-    type: String,
+    type: Object, 
     required: true
   },
   pf_id: {        // 专业id

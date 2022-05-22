@@ -26,13 +26,22 @@ exports.login = async (req, res, next) => {
 exports.register = async (req, res, next) => {
   try {
     // 1. 获取请求体数据
-    console.log(req.body)
     const user = req.body.user
     
     // 2. 从班级表中获取对应的班级id数据
-    const class_result = await Class.findOne({name: user.className})
+    let class_result = await Class.findOne({name: user.className})
+    let { id: class_id } = class_result.toObject()
+
+    if(Array.isArray(user.className)) {
+      const re = new RegExp(user.className.join('|'))
+      class_result = await Class.find({name: re}, {id: 1, _id:0})
+      console.log(11111, class_result);
+      class_id = class_result.map(item => item.id)
+      console.log(2333, class_id);
+    }
+    
     const pf_result = await Profession.findOne({name: user.profession})
-    const { id: class_id } = class_result.toObject()
+    
     const { id: pf_id } =  pf_result.toObject()
     // 3. 获取成功，将数据保存到user中
     user.class_id = class_id      // 班级id
@@ -106,18 +115,28 @@ exports.getlist = async (req, res, next) => {
     // console.log(pf_id, role);
     // 2. 查下相关学生数据
     let list = {}
+    let total = await User.find({$and: [{pf_id},{role}]}).count()
+
     if(pf_id && role) {   // 查找专业的学生
       list = await User.find({$and: [{pf_id},{role}]}).limit(limit).skip((page - 1) * limit)
-    } else {
-      list = await User.find({$or: [{pf_id},{role}]}).limit(limit).skip((page - 1) * limit)
+    } else {    // 查找教师列表
+      list = await User.find({$or: [{role}]}).limit(limit).skip((page - 1) * limit)
+      total = await User.find({$or: [{role}]}).count()
     }
-    const total = await User.find({$and: [{pf_id},{role}]}).count()
     
+    console.log(1111, total);
     if(search) {
+      // 获取list
       list = await User.find({
         role,
         $or: [{userid: { $regex: search }}, {username: {$regex: search}},{className:{$regex: search}}, {profession: {$regex: search}}]
-      }).limit(limit).skip((page - 1) * limit)
+      }).limit(limit).skip((page - 1) * limit)  
+      // 获取total
+      total = await User.find({
+        role,
+        $or: [{userid: { $regex: search }}, {username: {$regex: search}},{className:{$regex: search}}, {profession: {$regex: search}}]
+      }).count()
+      // console.log(1111, total.length);
     }
     // console.log(list);
     // 3. 返回数据
