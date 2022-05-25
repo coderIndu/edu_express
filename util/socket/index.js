@@ -49,7 +49,7 @@ exports.socket = (server) => {
         // 3. 从数据库中获取消息列表
         const result = await getFindMessage(data)
 
-        // console.log(result);
+        console.log(result);
         io.emit('resMsg', result)
       } catch (error) {
         console.log(error);

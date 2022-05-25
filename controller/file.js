@@ -17,8 +17,6 @@ exports.save = async (req, res, next) => {
     req.body.path = '/resource/' + file.filename
     req.body.mimetype = file.mimetype
     req.body.createDate = dateFormat(new Date(req.body.lastModifiedDate))
-
-    // console.log(req.body);
     
     // 2. 存放数据
     const result = await File.create(req.body)

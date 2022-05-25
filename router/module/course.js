@@ -22,4 +22,7 @@ router.post('/course/dropmany', auth, courseCtrl.removeMany)
 // 课程打卡
 router.get('/course/addClock', auth, courseCtrl.addClock)
 
+// 打卡列表
+router.get('/course/getClockList', auth, courseCtrl.getClockList)
+
 module.exports = router

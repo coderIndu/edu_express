@@ -7,7 +7,7 @@
  * foreignField: model表与查询表的关联字段
  * as: 查询数据的重命名
  * re: $match 筛查规则
- * field: 结果的显示字段
+ * project: 结果的显示字段
  * @returns 
  */
 async function getLookUp(model, config) {

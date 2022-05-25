@@ -16,3 +16,5 @@ module.exports = {
   jwtSecret: 'db354649-4ed8-419e-965e-e6b1fd43f243',
   fileBaseUrl: `${BASE_HOST}/${UPLOAD_PATH}`     // 当前地址
 }
+
+// console.log(UPLOAD_PATH);
