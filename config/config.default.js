@@ -11,8 +11,8 @@ module.exports = {
   HOST,
   UPLOAD_PATH,
   BASE_HOST,
-  dbUrl: 'mongodb://admin:123321@localhost/realworld?authSource=admin',  //本地
-  // dbUrl: `mongodb://admin:ggcfcmd233@114.132.229.173:2701/realworld?authSource=admin`,     // 腾讯云
+  // dbUrl: 'mongodb://admin:123321@localhost/realworld?authSource=admin',  //本地
+  dbUrl: `mongodb://admin:ggcfcmd233@114.132.229.173:2701/realworld?authSource=admin`,     // 腾讯云
   jwtSecret: 'db354649-4ed8-419e-965e-e6b1fd43f243',
   fileBaseUrl: `${BASE_HOST}/${UPLOAD_PATH}`     // 当前地址
 }
